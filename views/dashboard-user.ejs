@@ -1,0 +1,26 @@
+<div class="max-w-screen-lg mx-auto">
+    <header class="flex flex-col gap-4 mb-8">
+        <div class="flex flex-col gap-2">
+            <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">Dashboard Pengguna</h1>
+            <p class="text-muted-foreground">Selamat datang di sistem peminjaman ruangan, Mahasiswa <b>
+                    <%= user.name %>
+                </b>.</p>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <a href="/bookings/add" class="card hover:border-primary transition-colors cursor-pointer">
+            <header>
+                <h2 class="font-bold text-lg">Buat Pengajuan Baru</h2>
+                <p>Isi formulir untuk meminjam ruangan.</p>
+            </header>
+        </a>
+
+        <a href="/bookings" class="card hover:border-primary transition-colors cursor-pointer">
+            <header>
+                <h2 class="font-bold text-lg">Riwayat Peminjaman Saya</h2>
+                <p>Pantau status persetujuan dari admin.</p>
+            </header>
+        </a>
+    </div>
+</div>

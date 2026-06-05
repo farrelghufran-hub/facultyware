@@ -1,5 +1,5 @@
 const bcrypt = require("bcryptjs");
-const db = require("../lib/db");
+const db = require("../lib/database");
 
 const index = (req, res) => {
   res.render("index", { title: "Express" });

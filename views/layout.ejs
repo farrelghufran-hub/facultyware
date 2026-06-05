@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <script>
+        (() => {
+            try {
+                const stored = localStorage.getItem("themeMode");
+                if (stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches) {
+                    document.documentElement.classList.add("dark");
+                }
+            } catch (_) { }
+        })();
+    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+
+<body>
+
+    <aside id="sidebar" class="sidebar" data-side="left" aria-hidden="false">
+        <nav aria-label="Sidebar navigation">
+            <header>
+                <a href="/" class="btn-ghost p-2 h-12 w-full justify-start">
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-bold text-lg">Facultyware</span>
+                        <span class="truncate text-xs">Peminjaman Ruangan</span>
+                    </div>
+                </a>
+            </header>
+
+            <section class="scrollbar mt-4">
+                <div role="group">
+                    <h3 class="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Menu
+                        Utama</h3>
+                    <ul>
+                        <% if (user && user.role==='penanggung_jawab' ) { %>
+                            <li>
+                                <a href="/"
+                                    class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/bookings"
+                                    class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                    <span>Verifikasi Peminjaman</span>
+                                </a>
+                            </li>
+                            <% } else { %>
+                                <li>
+                                    <a href="/"
+                                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/bookings/add"
+                                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                        <span>Buat Pengajuan Baru</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/bookings"
+                                        class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary">
+                                        <span>Riwayat Peminjaman Saya</span>
+                                    </a>
+                                </li>
+                                <% } %>
+                    </ul>
+                </div>
+            </section>
+
+            <footer>
+                <a href="/logout"
+                    class="btn-ghost p-2 h-12 w-full flex items-center justify-start text-destructive hover:bg-destructive/10">
+                    <span class="truncate font-medium">Logout</span>
+                </a>
+            </footer>
+        </nav>
+    </aside>
+
+    <main id="content">
+
+        <header class="bg-background sticky inset-x-0 top-0 isolate flex shrink-0 items-center gap-2 border-b z-10">
+            <div class="flex h-14 w-full items-center gap-2 px-4">
+                <button type="button" onclick="document.dispatchEvent(new CustomEvent('basecoat:sidebar'))"
+                    class="btn-sm-icon-ghost mr-auto size-7 -ml-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="18" height="18" x="3" y="3" rx="2" />
+                        <path d="M9 3v18" />
+                    </svg>
+                </button>
+
+                <div class="text-sm font-medium">Hai, <%= user.name %>!</div>
+
+                <button type="button" onclick="document.documentElement.classList.toggle('dark')"
+                    class="btn-icon-outline size-8 ml-4">
+                    <span class="hidden dark:block">☀️</span>
+                    <span class="block dark:hidden">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="p-4 md:p-6 xl:p-12">
+            <%- body %>
+        </div>
+
+    </main>
+
+</body>
+
+</html>

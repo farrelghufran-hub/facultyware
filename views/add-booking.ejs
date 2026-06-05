@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+
+<body class="bg-background">
+
+    <div class="flex min-h-svh flex-col p-6 md:p-10 lg:px-32">
+        <div class="w-full max-w-4xl mx-auto">
+
+            <div class="flex flex-col gap-6">
+                <div data-slot="card"
+                    class="flex flex-col gap-6 rounded-xl border bg-card text-card-foreground shadow-sm overflow-hidden p-0">
+
+                    <form class="p-6 md:p-8" action="/bookings/add" method="POST">
+                        <div class="flex flex-col gap-7">
+
+                            <div class="flex flex-col gap-2">
+                                <h1 class="text-2xl font-bold">Tambah Peminjaman Ruangan</h1>
+                                <p class="text-muted-foreground">Silakan isi formulir di bawah untuk mengajukan
+                                    pemakaian ruangan.</p>
+                            </div>
+
+                            <div class="group/field flex w-full gap-3 flex-col">
+                                <label class="text-sm font-medium leading-snug">Pilih Ruangan</label>
+                                <select name="room_id" required
+                                    class="h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring">
+                                    <option value="" disabled selected>-- Pilih Ruangan --</option>
+                                    <% if (rooms && rooms.length> 0) { %>
+                                        <% rooms.forEach(function(room) { %>
+                                            <option value="<%= room.id %>">
+                                                <%= room.name %>
+                                            </option>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <option value="">-- Ruangan Kosong --</option>
+                                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="group/field flex w-full gap-3 flex-col">
+                                <label class="text-sm font-medium leading-snug">Tanggal Peminjaman</label>
+                                <input type="date" name="tanggal" required
+                                    class="h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="group/field flex w-full gap-3 flex-col">
+                                    <label class="text-sm font-medium leading-snug">Jam Mulai</label>
+                                    <input type="time" name="jam_mulai" required
+                                        class="h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring">
+                                </div>
+
+                                <div class="group/field flex w-full gap-3 flex-col">
+                                    <label class="text-sm font-medium leading-snug">Jam Selesai</label>
+                                    <input type="time" name="jam_selesai" required
+                                        class="h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring">
+                                </div>
+                            </div>
+
+                            <div class="group/field flex w-full gap-3 flex-col">
+                                <label class="text-sm font-medium leading-snug">Keperluan</label>
+                                <textarea name="purpose" rows="3" required
+                                    class="w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-colors outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring"></textarea>
+                            </div>
+
+                            <div class="flex gap-4 mt-2">
+                                <button type="submit"
+                                    class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium transition-all outline-none bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2">
+                                    Ajukan Peminjaman
+                                </button>
+                                <a href="/bookings"
+                                    class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2">
+                                    Batal
+                                </a>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
