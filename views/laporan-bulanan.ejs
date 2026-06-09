@@ -1,0 +1,85 @@
+<div class="max-w-screen-lg mx-auto">
+    <header class="flex flex-col gap-4 mb-8">
+        <div class="flex flex-col gap-2">
+            <h1 class="text-2xl font-bold tracking-tight sm:text-3xl">Laporan Bulanan Peminjaman</h1>
+            <p class="text-muted-foreground">Unduh rekap laporan peminjaman ruangan per bulan.</p>
+        </div>
+    </header>
+
+    <!-- Form Filter -->
+    <div class="card p-6 mb-6">
+        <form action="/bookings/laporan/bulanan" method="GET">
+            <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 16px; align-items: end;">
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Bulan</label>
+                    <select name="bulan" class="input w-full">
+                        <option value="1" <%= bulan == 1 ? 'selected' : '' %>>Januari</option>
+                        <option value="2" <%= bulan == 2 ? 'selected' : '' %>>Februari</option>
+                        <option value="3" <%= bulan == 3 ? 'selected' : '' %>>Maret</option>
+                        <option value="4" <%= bulan == 4 ? 'selected' : '' %>>April</option>
+                        <option value="5" <%= bulan == 5 ? 'selected' : '' %>>Mei</option>
+                        <option value="6" <%= bulan == 6 ? 'selected' : '' %>>Juni</option>
+                        <option value="7" <%= bulan == 7 ? 'selected' : '' %>>Juli</option>
+                        <option value="8" <%= bulan == 8 ? 'selected' : '' %>>Agustus</option>
+                        <option value="9" <%= bulan == 9 ? 'selected' : '' %>>September</option>
+                        <option value="10" <%= bulan == 10 ? 'selected' : '' %>>Oktober</option>
+                        <option value="11" <%= bulan == 11 ? 'selected' : '' %>>November</option>
+                        <option value="12" <%= bulan == 12 ? 'selected' : '' %>>Desember</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Tahun</label>
+                    <input type="number" name="tahun" value="<%= tahun %>" class="input w-full" min="2020" max="2030">
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tombol Download PDF -->
+    <div class="mb-4 flex justify-end">
+        <a href="/bookings/laporan/bulanan/download?bulan=<%= bulan %>&tahun=<%= tahun %>" 
+           class="btn btn-primary">
+            Download PDF
+        </a>
+    </div>
+
+    <!-- Preview Data -->
+    <div class="card overflow-hidden">
+        <div class="p-4 border-b">
+            <h2 class="font-semibold">Preview Data Bulan <%= bulan %> / <%= tahun %></h2>
+        </div>
+        <table class="w-full text-sm">
+            <thead class="bg-muted/50">
+                <tr>
+                    <th class="h-10 px-4 text-left font-bold text-muted-foreground">No</th>
+                    <th class="h-10 px-4 text-left font-bold text-muted-foreground">Peminjam</th>
+                    <th class="h-10 px-4 text-left font-bold text-muted-foreground">Ruangan</th>
+                    <th class="h-10 px-4 text-left font-bold text-muted-foreground">Tanggal</th>
+                    <th class="h-10 px-4 text-left font-bold text-muted-foreground">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (bookings && bookings.length > 0) { %>
+                    <% bookings.forEach(function(booking, index) { %>
+                        <tr class="border-b hover:bg-muted/50">
+                            <td class="p-4"><%= index + 1 %></td>
+                            <td class="p-4"><%= booking.borrower_name || '-' %></td>
+                            <td class="p-4"><%= booking.room_name %></td>
+                            <td class="p-4"><%= new Date(booking.start_time).toLocaleDateString('id-ID') %></td>
+                            <td class="p-4"><%= booking.status %></td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="5" class="p-4 text-center text-muted-foreground">
+                            Belum ada data peminjaman pada bulan ini.
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
